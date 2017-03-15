@@ -1,4 +1,4 @@
-angular.module('starter.controllers', [])
+angular.module('appskeleton')
 
 .controller('AppCtrl', function($scope, $ionicModal, $timeout) {
 
