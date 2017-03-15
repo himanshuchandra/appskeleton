@@ -5,7 +5,7 @@
 // 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
 // the 2nd parameter is an array of 'requires'
 // 'starter.controllers' is found in controllers.js
-angular.module('appskeleton', ['ionic'])
+angular.module('appskeleton', ['ionic','angular-md5'])
 
 .run(function($ionicPlatform) {
   $ionicPlatform.ready(function() {
@@ -23,6 +23,8 @@ angular.module('appskeleton', ['ionic'])
   });
 })
 
+.constant("requrl","http://192.168.0.104:1234")
+
 .config(function($stateProvider, $urlRouterProvider) {
   $stateProvider
 
@@ -30,10 +32,9 @@ angular.module('appskeleton', ['ionic'])
     url: '/app',
     abstract: true,
     templateUrl: 'templates/menu.html',
-    controller: 'AppCtrl'
   })
 
-  .state('app.search', {
+  .state('app.main', {
     url: '/home',
     views: {
       'menuContent': {
@@ -43,30 +44,31 @@ angular.module('appskeleton', ['ionic'])
     }
   })
 
-  .state('app.browse', {
-      url: '/browse',
+  .state('app.about', {
+      url: '/about',
       views: {
         'menuContent': {
-          templateUrl: 'templates/browse.html'
+          templateUrl: 'templates/about.html',
+          controller:'AboutCtrl'
         }
       }
     })
-    .state('app.playlists', {
-      url: '/playlists',
+    .state('app.login', {
+      url: '/login',
       views: {
         'menuContent': {
-          templateUrl: 'templates/playlists.html',
-          controller: 'PlaylistsCtrl'
+          templateUrl: 'templates/login.html',
+          controller: 'LoginCtrl'
         }
       }
     })
 
-  .state('app.single', {
-    url: '/playlists/:playlistId',
+  .state('app.signup', {
+    url: '/signup',
     views: {
       'menuContent': {
-        templateUrl: 'templates/playlist.html',
-        controller: 'PlaylistCtrl'
+        templateUrl: 'templates/signup.html',
+        controller: 'SignupCtrl'
       }
     }
   });

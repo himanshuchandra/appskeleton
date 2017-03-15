@@ -2,10 +2,10 @@
 
 /**
  * @ngdoc function
- * @name appskeletonApp.controller:MainCtrl
+ * @name appskeleton.controller:MainCtrl
  * @description
  * # MainCtrl
- * Controller of the appskeletonApp
+ * Controller of the appskeleton
  */
 angular.module('appskeleton')
   .controller('MainCtrl', function ($scope) {

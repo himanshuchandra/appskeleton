@@ -1,25 +1,59 @@
-<ion-modal-view>
-  <ion-header-bar>
-    <h1 class="title">Login</h1>
-    <div class="buttons">
-      <button class="button button-clear" ng-click="closeLogin()">Close</button>
-    </div>
-  </ion-header-bar>
-  <ion-content>
-    <form ng-submit="doLogin()">
-      <div class="list">
-        <label class="item item-input">
-          <span class="input-label">Username</span>
-          <input type="text" ng-model="loginData.username">
-        </label>
-        <label class="item item-input">
-          <span class="input-label">Password</span>
-          <input type="password" ng-model="loginData.password">
-        </label>
-        <label class="item">
-          <button class="button button-block button-positive" type="submit">Log in</button>
-        </label>
-      </div>
+<div>
+  <h1>Hidden Text</h1>
+  <p class="lead">
+    <img src="img/yeoman.png" alt="I'm Yeoman"><br>
+    <h1>Login</h1>
+  </p>
+</div>    
+
+    <form name="loginForm"  ng-submit="submitForm(loginForm)" novalidate>
+
+    <input type="text" ng-model="loginid" name="validloginid"
+     pattern="[a-zA-Z0-9_.@!#$%^&*-+=><?/~`'|]{5,}" placeholder="Email/Username" required>
+    <span  ng-show="loginForm.validloginid.$touched &&
+     loginForm.validloginid.$error.pattern && !loginForm.validloginid.$error.required">
+     Invalid email/username </span>
+    <span  ng-show="loginForm.validloginid.$touched &&
+     loginForm.validloginid.$error.required">Cannot be left empty </span>
+    <span  ng-show="submitted && !loginForm.validloginid.$touched &&
+     loginForm.validloginid.$error.required">
+        Cannot be left empty </span>
+    <span  ng-show="submitted && !loginForm.validloginid.$touched &&
+     loginForm.validloginid.$error.pattern">
+        Invalid email/username </span>
+    
+
+    <input type="password" ng-model="loginpassword" placeholder="Password" 
+    name="validloginpass" pattern="[a-z0-9A-Z!@#$%^&*()_.]{8,25}" required>
+    <span  ng-show="loginForm.validloginpass.$touched &&
+     loginForm.validloginpass.$error.pattern && !loginForm.validloginpass.$error.required">
+     password too small or invalid character,use(8-25 char)(a-z,0-9,A-Z,!,@,#,$,%,^,&,*,(,),_,.) </span>
+    <span  ng-show="loginForm.validloginpass.$touched && loginForm.validloginpass.$error.required">
+        Cannot be left empty </span>
+    <span  ng-show="submitted && !loginForm.validloginpass.$touched &&
+     loginForm.validloginpass.$error.required">Cannot be left empty </span>
+    <span  ng-show="submitted && !loginForm.validloginpass.$touched &&
+     loginForm.validloginpass.$error.pattern">
+     password too small or invalid character,use(8-25 char)(a-z,0-9,A-Z,!,@,#,$,%,^,&,*,(,),_,.) </span>
+
+    <input type="checkbox" ng-model="RememberMe" name="rememberMe" value="false">Remember Me<br>
+    
+    <input type="submit" ng-click="submitted=true;" value="Login">
+
     </form>
-  </ion-content>
-</ion-modal-view>
+    {{result}}
+ 
+    <H3><a ng-href="#forgotpassword">Forgot Password</a></H3>
+
+    <H1><a ng-href="#/app/signup">SIGNUP</a></H1>
+ 
+<!--
+<div ng-controller="GoogleCtrl">     
+    <input type="button" ng-click="SignInGoogle()" value="Sign in with google" />
+    {{GoogleMessage}}
+</div>
+
+<div ng-controller="FacebookCtrl">     
+    <input type="button" ng-click="SignInFacebook()" value="Sign in with facebook" />
+    {{FacebookMessage}}
+</div>-->
