@@ -2,19 +2,19 @@
 
 /**
  * @ngdoc service
- * @name appskeleton.login
+ * @name appskeleton.socialsignin
  * @description
- * # login
- * Factory in the appskeleton
+ * # socialsignin
+ * Factory in the appskeleton.
  */
 angular.module('appskeleton')
-  .factory('login', function ($http,$q,requrl) {
+  .factory('socialsignin', function ($q,$http,requrl) {
 
     var object = {
 
-        loginUser:function(loginObject){
+        socialSignin:function(SocialObject){   
           var defer = $q.defer(); 
-          $http.post(requrl+'/login/login',loginObject)
+          $http.post(requrl+'/commonroutes/socialSignin',SocialObject)
           .then(function(data){
                defer.resolve(data);
            },function(error){
@@ -26,4 +26,4 @@ angular.module('appskeleton')
     };
     return object;
 
-});
+  });

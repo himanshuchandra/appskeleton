@@ -5,7 +5,13 @@
 // 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
 // the 2nd parameter is an array of 'requires'
 // 'starter.controllers' is found in controllers.js
-angular.module('appskeleton', ['ionic','angular-md5'])
+angular.module('appskeleton', [
+    'ionic',
+    'angular-md5',
+    'countrySelect',
+    'googleplus',
+    'ngFacebook'
+])
 
 .run(function($ionicPlatform) {
   $ionicPlatform.ready(function() {
@@ -23,7 +29,18 @@ angular.module('appskeleton', ['ionic','angular-md5'])
   });
 })
 
-.constant("requrl","http://192.168.0.104:1234")
+.constant("requrl","http://192.168.0.102:1234")
+
+// .config(function(GooglePlusProvider) {
+//      GooglePlusProvider.init({
+//         clientId:'11067462844-4s6bjl47j6m7v2g4it1ndnfbgirk7m3g.apps.googleusercontent.com',
+//         apiKey: 'AIzaSyA7-XiSE26yWofo9OO0Za34DrgU5q775o4'
+//      });
+// })
+
+// .config( function( $facebookProvider ) {
+//     $facebookProvider.setAppId('1853899954884964');
+// })
 
 .config(function($stateProvider, $urlRouterProvider) {
   $stateProvider
@@ -33,6 +50,7 @@ angular.module('appskeleton', ['ionic','angular-md5'])
     abstract: true,
     templateUrl: 'templates/menu.html',
   })
+
 
   .state('app.main', {
     url: '/home',
@@ -69,6 +87,26 @@ angular.module('appskeleton', ['ionic','angular-md5'])
       'menuContent': {
         templateUrl: 'templates/signup.html',
         controller: 'SignupCtrl'
+      }
+    }
+  })
+
+  .state('app.profile', {
+    url: '/profile',
+    views: {
+      'menuContent': {
+        templateUrl: 'templates/profile.html',
+        controller: 'ProfileCtrl'
+      }
+    }
+  })
+  
+  .state('app.forgotpassword', {
+    url: '/forgotpassword',
+    views: {
+      'menuContent': {
+        templateUrl: 'templates/forgotpassword.html',
+        controller: 'ForgotpasswordCtrl'
       }
     }
   });

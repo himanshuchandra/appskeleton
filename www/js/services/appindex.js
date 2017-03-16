@@ -2,26 +2,26 @@
 
 /**
  * @ngdoc service
- * @name appskeleton.login
+ * @name appskeleton.appindex
  * @description
- * # login
+ * # appindex
  * Factory in the appskeleton
  */
 angular.module('appskeleton')
-  .factory('login', function ($http,$q,requrl) {
+  .factory('appindex', function ($http,$q,requrl) {
 
     var object = {
 
-        loginUser:function(loginObject){
+        logout:function(){
           var defer = $q.defer(); 
-          $http.post(requrl+'/login/login',loginObject)
+          $http.post(requrl+'/logout')
           .then(function(data){
                defer.resolve(data);
            },function(error){
                defer.reject(error);
            }) 
             return defer.promise;
-        },
+        }
 
     };
     return object;

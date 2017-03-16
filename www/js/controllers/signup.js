@@ -8,7 +8,7 @@
  * Controller of the appskeleton
  */
 angular.module('appskeleton')
-  .controller('SignupCtrl',function ($scope,signup,$window,md5,requrl) {
+  .controller('SignupCtrl',function ($scope,signup,$window,$location,md5,requrl) {
    
 ////////////Checking if username exists//////////////
     $scope.UsernameMessage=null;
@@ -111,7 +111,7 @@ angular.module('appskeleton')
            if(data.data.message==="pass"){
                $scope.result = "Registered Successfully";
                $window.location.reload();
-               //$window.location.assign(requrl);
+               $location.path('app');
            }
            else if(data.data.message==="usernameTaken"){
                $scope.UsernameMessage = "Username Taken";

@@ -8,7 +8,7 @@
  * Controller of the appskeleton
  */
 angular.module('appskeleton')
-  .controller('LoginCtrl', function ($scope,login,$window,requrl,md5) {
+  .controller('LoginCtrl', function ($scope,login,$window,$location,requrl,md5) {
       
      $scope.submitForm=function(loginForm){
         if(loginForm.$valid){
@@ -35,7 +35,7 @@ angular.module('appskeleton')
             if(data.data.message==="success"){
                 $scope.result="Logged in successfully";
                 $window.location.reload();
-                //$window.location.assign(requrl);
+                $location.path("app");
             }
             else if(data.data.message==="fail"){
                 $scope.result="Wrong email or password";

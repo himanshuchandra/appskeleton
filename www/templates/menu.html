@@ -12,9 +12,9 @@
     <ion-nav-view name="menuContent"></ion-nav-view>
   </ion-side-menu-content>
 
-  <ion-side-menu side="left">
+  <ion-side-menu side="left" ng-controller="AppindexCtrl">
     <ion-header-bar class="bar-stable">
-      <h1 class="title">Left</h1>
+      <h1 class="title">Options</h1>
     </ion-header-bar>
     <ion-content>
       <ion-list>
@@ -24,12 +24,22 @@
         <ion-item menu-close href="#/app/about">
           About Us
         </ion-item>
-        <ion-item menu-close href="#/app/login">
-          Login
-        </ion-item>
-        <ion-item menu-close href="#/app/signup">
-          SignUp
-        </ion-item>
+        <div ng-hide="loggedOut">
+          <ion-item menu-close href="#/app/login">
+            Login
+          </ion-item>
+          <ion-item menu-close href="#/app/signup">
+            SignUp
+          </ion-item>
+        </div>
+        <div ng-hide="loggedIn"> 
+          <ion-item menu-close href="#/app/profile">
+            My Profile
+          </ion-item>
+          <ion-item menu-close ng-click="logout();">
+            Logout
+          </ion-item>
+        </div>
       </ion-list>
     </ion-content>
   </ion-side-menu>
