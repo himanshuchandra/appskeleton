@@ -8,7 +8,15 @@
  * Controller of the appskeleton
  */
 angular.module('appskeleton')
-  .controller('SignupCtrl',function ($scope,signup,$window,$location,md5,requrl) {
+  .controller('SignupCtrl',function ($scope,signup,$window,$location,md5) {
+
+
+    $scope.signup={
+        useremail:"",
+        username:"",
+        password1:"",
+        password2:""
+    };
    
 ////////////Checking if username exists//////////////
     $scope.UsernameMessage=null;
@@ -29,7 +37,7 @@ angular.module('appskeleton')
     $scope.checkInDb=function(regForm){
 
         var usernameObj = {
-            "username":$scope.username,
+            "username":$scope.signup.username,
         };
         
       var promise = signup.checkUsername(usernameObj);
@@ -63,16 +71,16 @@ angular.module('appskeleton')
     var passverified=false;
     $scope.checkp=function(regForm){
         $scope.isNotValid=true;
-        if($scope.password2!=undefined)
+        if($scope.signup.password2!=undefined)
         {   
-            if($scope.password1===$scope.password2)
+            if($scope.signup.password1===$scope.signup.password2)
             {   
                 $scope.passtext="Passwords match";
                 passverified=true;  
                 $scope.enableRegister(regForm);
             }
   
-            else if($scope.password1==undefined){
+            else if($scope.signup.password1==undefined){
                  $scope.passtext="";
                  passverified=false;
             }
@@ -97,11 +105,11 @@ angular.module('appskeleton')
    
     $scope.doRegister=function(){
         
-        var hashPassword=md5.createHash($scope.password1);
+        var hashPassword=md5.createHash($scope.signup.password1);
 
         var userObject = {
-            "useremail":$scope.useremail,
-            "username":$scope.username,
+            "useremail":$scope.signup.useremail,
+            "username":$scope.signup.username,
             "password1":hashPassword,
             "role":"customer"
         };
@@ -111,7 +119,7 @@ angular.module('appskeleton')
            if(data.data.message==="pass"){
                $scope.result = "Registered Successfully";
                $window.location.reload();
-               $location.path('app');
+               $location.path("#/app");
            }
            else if(data.data.message==="usernameTaken"){
                $scope.UsernameMessage = "Username Taken";

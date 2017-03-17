@@ -29,18 +29,18 @@ angular.module('appskeleton', [
   });
 })
 
-.constant("requrl","http://192.168.0.102:1234")
+.constant("requrl","http://192.168.0.101:1234")
 
-// .config(function(GooglePlusProvider) {
-//      GooglePlusProvider.init({
-//         clientId:'11067462844-4s6bjl47j6m7v2g4it1ndnfbgirk7m3g.apps.googleusercontent.com',
-//         apiKey: 'AIzaSyA7-XiSE26yWofo9OO0Za34DrgU5q775o4'
-//      });
-// })
+.config(function(GooglePlusProvider) {
+     GooglePlusProvider.init({
+        clientId:'11067462844-4s6bjl47j6m7v2g4it1ndnfbgirk7m3g.apps.googleusercontent.com',
+        apiKey: 'AIzaSyA7-XiSE26yWofo9OO0Za34DrgU5q775o4'
+     });
+})
 
-// .config( function( $facebookProvider ) {
-//     $facebookProvider.setAppId('1853899954884964');
-// })
+.config( function( $facebookProvider ) {
+    $facebookProvider.setAppId('1853899954884964');
+})
 
 .config(function($stateProvider, $urlRouterProvider) {
   $stateProvider

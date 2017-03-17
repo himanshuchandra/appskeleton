@@ -8,7 +8,13 @@
  * Controller of the appskeleton
  */
 angular.module('appskeleton')
-  .controller('LoginCtrl', function ($scope,login,$window,$location,requrl,md5) {
+  .controller('LoginCtrl', function ($scope,login,$window,$location,md5) {
+
+      $scope.login={
+        loginid:"",
+        loginpassword:"",
+        RememberMe:undefined
+      };
       
      $scope.submitForm=function(loginForm){
         if(loginForm.$valid){
@@ -23,19 +29,19 @@ angular.module('appskeleton')
     
     $scope.doLogin=function(){
         
-        var hashLoginPassword=md5.createHash($scope.loginpassword);
+        var hashLoginPassword=md5.createHash($scope.login.loginpassword);
 
         var loginObject = {
-            "loginid":$scope.loginid,
+            "loginid":$scope.login.loginid,
             "loginpassword":hashLoginPassword,
-            "rememberMe":$scope.RememberMe
+            "rememberMe":$scope.login.RememberMe
         };
         var promise = login.loginUser(loginObject);
         promise.then(function(data){
             if(data.data.message==="success"){
                 $scope.result="Logged in successfully";
                 $window.location.reload();
-                $location.path("app");
+                $location.path("#/app");
             }
             else if(data.data.message==="fail"){
                 $scope.result="Wrong email or password";

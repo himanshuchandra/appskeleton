@@ -8,7 +8,7 @@
  * Controller of the appskeleton
  */
 angular.module('appskeleton')
-  .controller('GoogleCtrl', function ($scope,$window,requrl,socialsignin,GooglePlus) {
+  .controller('GoogleCtrl', function ($scope,$window,socialsignin,GooglePlus) {
 
 
     var AuthToken=null;
@@ -71,13 +71,13 @@ angular.module('appskeleton')
         promise.then(function(data){
             if(data.data.message==="loggedIn"){
                 $scope.GoogleMessage="Successfully LoggedIn";
-                $window.location.reload();
-                $window.location.assign(requrl);
+                //$window.location.reload();
+                //$window.location.assign(requrl);
             }
             else if(data.data.message==="registered"){
                 $scope.GoogleMessage="Successfully Registered & LoggedIn";
-                $window.location.reload();
-                $window.location.assign(requrl);
+                //$window.location.reload();
+                //$window.location.assign(requrl);
             }
             else{
                 $scope.GoogleMessage="Error! Try again later or use the login form.";

@@ -8,7 +8,7 @@
  * Controller of the appskeleton
  */
 angular.module('appskeleton')
-  .controller('AppindexCtrl', function ($scope,appindex,requrl,$window,$location) {
+  .controller('AppindexCtrl', function ($scope,appindex,$window,$location) {
 
     $scope.loggedOut=false;
     $scope.loggedIn=false;

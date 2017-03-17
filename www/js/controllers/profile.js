@@ -8,7 +8,23 @@
  * Controller of the appskeleton
  */
 angular.module('appskeleton')
-  .controller('ProfileCtrl', function ($scope,$window,$location,profile,md5,requrl) {
+  .controller('ProfileCtrl', function ($scope,$window,$location,profile,md5) {
+
+    $scope.profile={
+        newUsername:"",
+        newName:"",
+        newArea:"",
+        newCity:"",
+        newState:"",
+        newPincode:"",
+        newCountry:"",
+        countryCode:"",
+        newMobile:"",
+        VCode:"",
+        oldPassword:"",
+        newPassword:"",
+        newPassword2:""
+    };
 
     $scope.ProfileForm=true;
     $scope.MobileForm=true;
@@ -24,7 +40,7 @@ angular.module('appskeleton')
         var print=data.data["0"];
         var userInfo=data.data["0"].userinfo;
         if(print.useremail==undefined){
-          //$location.path("app/login");
+          $location.path("#/app/login");
         }
         else{
           $scope.Email=print.useremail;
@@ -43,7 +59,7 @@ angular.module('appskeleton')
           }
         }
     },function(error){
-        $location.path("app/login");
+        $location.path("#/app/login");
     });
 
  //////////// Show-Hide form button logic  ////////
@@ -107,20 +123,20 @@ angular.module('appskeleton')
 
 ///////////// Edit profile logic //////////////
     $scope.FillPlaceholders=function(){
-          $scope.newName=$scope.Name;
-          $scope.newArea=$scope.Area;
-          $scope.newCity=$scope.City;
-          $scope.newPincode=$scope.Pincode; 
-          $scope.newState=$scope.State;
-          $scope.newCountry=$scope.Country;
+          $scope.profile.newName=$scope.Name;
+          $scope.profile.newArea=$scope.Area;
+          $scope.profile.newCity=$scope.City;
+          $scope.profile.newPincode=$scope.Pincode; 
+          $scope.profile.newState=$scope.State;
+          $scope.profile.newCountry=$scope.Country;
     }
 
     $scope.submitProfileForm=function (profForm) {  
-        if(profForm.$valid && $scope.newCountry!=undefined){
+        if(profForm.$valid && $scope.profile.newCountry!=undefined){
           $scope.ProfileResult="Saving";
           $scope.changeProfile();
         }
-        else if($scope.newCountry==undefined){
+        else if($scope.profile.newCountry==undefined){
           $scope.dataValid="Choose a country";
         }
         else{
@@ -129,13 +145,13 @@ angular.module('appskeleton')
     };
 
     $scope.changeProfile=function () {
-        var country=$scope.newCountry.replace(/['"]+/g,'');
+        var country=$scope.profile.newCountry.replace(/['"]+/g,'');
         var profileObject={
-          "fullname":$scope.newName,
-          "area":$scope.newArea,
-          "city":$scope.newCity,
-          "state":$scope.newState,
-          "pincode":$scope.newPincode,
+          "fullname":$scope.profile.newName,
+          "area":$scope.profile.newArea,
+          "city":$scope.profile.newCity,
+          "state":$scope.profile.newState,
+          "pincode":$scope.profile.newPincode,
           "country":country,
         };
         
@@ -160,7 +176,6 @@ angular.module('appskeleton')
 ///////////////Add/Change Mobile no. logic ////////////////
     $scope.HideMobileForm=false;
     $scope.HideCodeForm=true;
-    $scope.countryCode="91";
 
     $scope.submitMobileForm=function(mobileForm){
         if(mobileForm.$valid){
@@ -174,8 +189,8 @@ angular.module('appskeleton')
     $scope.ChangeMobile=function(){
   
         var MobileObject={
-          "CountryCode":"+"+$scope.countryCode,
-          "MobileNumber":$scope.newMobile,
+          "CountryCode":"+"+$scope.profile.countryCode,
+          "MobileNumber":$scope.profile.newMobile,
         };
 
         var promise=profile.updateMobile(MobileObject);
@@ -207,7 +222,7 @@ angular.module('appskeleton')
 
     $scope.VerifyCode=function(){
         var CodeObject={
-          "VCode":$scope.VCode,
+          "VCode":$scope.profile.VCode,
         };
 
         var promise=profile.verifyCode(CodeObject);
@@ -232,7 +247,7 @@ angular.module('appskeleton')
     };
 
     $scope.SendAgain=function(){
-        $scope.VCode=null;
+        $scope.profile.VCode=null;
         $scope.CodeMessage=undefined;
         $scope.HideMobileForm=false;
         $scope.HideCodeForm=true;
@@ -242,14 +257,14 @@ angular.module('appskeleton')
     var arePasswordsSame=false;
 
     $scope.checkPassword=function(){
-      if($scope.newPassword2!=undefined)
+      if($scope.profile.newPassword2!=undefined)
       {   
-          if($scope.newPassword===$scope.newPassword2)
+          if($scope.profile.newPassword===$scope.profile.newPassword2)
           {   
             $scope.PasswordMessage="Passwords match";
             arePasswordsSame=true;            
           }
-          else if($scope.newPassword==undefined){
+          else if($scope.profile.newPassword==undefined){
               $scope.PasswordMessage=undefined;
               arePasswordsSame=false;
           }
@@ -272,8 +287,8 @@ angular.module('appskeleton')
     
     $scope.changePassword=function () {
 
-      var hashOldPassword=md5.createHash($scope.oldPassword);
-      var hashNewPassword=md5.createHash($scope.newPassword);
+      var hashOldPassword=md5.createHash($scope.profile.oldPassword);
+      var hashNewPassword=md5.createHash($scope.profile.newPassword);
       var passwordObject={
           "oldpassword":hashOldPassword,
           "password1":hashNewPassword,
@@ -309,7 +324,7 @@ angular.module('appskeleton')
         $scope.disableButton=true;
         isUsernameNew=false;
         $scope.UsernameMessage=null;
-        if($scope.newUsername===$scope.uName){
+        if($scope.profile.newUsername===$scope.uName){
           $scope.UsernameMessage="Same as current username";
         }
         else if(usernameForm.newusername.$valid){
@@ -320,7 +335,7 @@ angular.module('appskeleton')
 
     $scope.checkInDb=function(){
         var usernameObj = {
-          "username":$scope.newUsername,
+          "username":$scope.profile.newUsername,
         };
         
         var promise = profile.checkUsername(usernameObj);
@@ -354,7 +369,7 @@ angular.module('appskeleton')
     $scope.ChangeUsername=function(){
       
       var UsernameObject={
-        "Username":$scope.newUsername
+        "Username":$scope.profile.newUsername
       }
       var promise=profile.changeUsername(UsernameObject);
       promise.then(function(data){
@@ -381,4 +396,5 @@ angular.module('appskeleton')
       });
     };
        
+ 
   });
