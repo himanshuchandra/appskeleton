@@ -29,7 +29,7 @@ angular.module('appskeleton', [
   });
 })
 
-.constant("requrl","http://192.168.0.101:1234")
+.constant("requrl","http://192.168.0.104:1234")
 
 .config(function(GooglePlusProvider) {
      GooglePlusProvider.init({

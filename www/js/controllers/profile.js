@@ -40,6 +40,7 @@ angular.module('appskeleton')
         var print=data.data["0"];
         var userInfo=data.data["0"].userinfo;
         if(print.useremail==undefined){
+          $window.location.reload(); 
           $location.path("#/app/login");
         }
         else{
@@ -59,6 +60,7 @@ angular.module('appskeleton')
           }
         }
     },function(error){
+        $window.location.reload();
         $location.path("#/app/login");
     });
 
