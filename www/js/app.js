@@ -10,7 +10,8 @@ angular.module('appskeleton', [
     'angular-md5',
     'countrySelect',
     'googleplus',
-    'ngFacebook'
+    'ngFacebook',
+    'ngStorage'
 ])
 
 .run(function($ionicPlatform) {

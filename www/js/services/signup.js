@@ -8,7 +8,7 @@
  * Factory in the appskeleton
  */
 angular.module('appskeleton')
-  .factory('signup', function ($http,$q,requrl) {
+  .factory('signup', function ($http,$q,requrl,$localStorage) {
 
     var object = {
         
@@ -24,9 +24,17 @@ angular.module('appskeleton')
         },
 
         registerUser:function(userObject){
+
+          userObject.appCall=true;  
           var defer = $q.defer();
            $http.post(requrl+'/signup/registerUser',userObject)
            .then(function(data){
+
+               $localStorage.$default({
+                    sessionid: ''
+                });
+               $localStorage.sessionid=data.data.sessionid;
+               
                defer.resolve(data);
            },function(error){
                defer.reject(error);
