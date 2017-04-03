@@ -23,17 +23,6 @@ angular.module('appskeleton')
           return defer.promise;
         },
 
-        // passwordReset:function(PasswordObject){
-        //   var defer = $q.defer(); 
-        //   $http.post(requrl+'/forgotpassword/passwordReset',PasswordObject)
-        //   .then(function(data){
-        //     defer.resolve(data); 
-        //   },function(error){
-        //     defer.reject(error);
-        //   })
-        //   return defer.promise;
-        // },
-
       };
     return object;
 

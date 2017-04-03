@@ -8,7 +8,7 @@
  * Controller of the appskeleton
  */
 angular.module('appskeleton')
-  .controller('SignupCtrl',function ($scope,signup,$window,$location,md5) {
+  .controller('SignupCtrl',function ($scope,signup,$window,$state,md5) {
 
 
     $scope.signup={
@@ -119,7 +119,7 @@ angular.module('appskeleton')
            if(data.data.message==="pass"){
                $scope.result = "Registered Successfully";
                $window.location.reload();
-               $location.path("#/app");
+               $state.go("app.main");
            }
            else if(data.data.message==="usernameTaken"){
                $scope.UsernameMessage = "Username Taken";

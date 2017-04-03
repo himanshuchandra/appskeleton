@@ -8,7 +8,7 @@
  * Controller of the appskeleton
  */
 angular.module('appskeleton')
-  .controller('ForgotpasswordCtrl', function ($scope,forgotpassword,$location,md5) {
+  .controller('ForgotpasswordCtrl', function ($scope,forgotpassword,md5) {
 
     $scope.forgotpassword={
       ForgotEmail:""

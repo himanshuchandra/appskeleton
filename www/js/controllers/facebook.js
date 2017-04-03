@@ -29,7 +29,7 @@ angular.module('appskeleton')
    }());
 })
 
-.controller('FacebookCtrl', function ($scope,$window,$facebook,socialsignin) {
+.controller('FacebookCtrl', function ($scope,$window,$state,$facebook,socialsignin) {
 
   var FEmail=null;
   var FullName=null;
@@ -73,13 +73,13 @@ angular.module('appskeleton')
     promise.then(function(data){
         if(data.data.message==="loggedIn"){
             $scope.FacebookMessage="Successfully LoggedIn";
-            //$window.location.reload();
-            //$window.location.assign(requrl);
+            $window.location.reload();
+            $state.go("app.main");
         }
         else if(data.data.message==="registered"){
             $scope.FacebookMessage="Successfully Registered & LoggedIn";
-            //$window.location.reload();
-            //$window.location.assign(requrl);
+            $window.location.reload();
+            $state.go("app.main");
         }
         else{
             $scope.FacebookMessage="Error! Try again later or use the login form.";

@@ -8,42 +8,43 @@
  * Controller of the appskeleton
  */
 angular.module('appskeleton')
-  .controller('ProfileCtrl', function ($scope,$window,$location,profile,md5) {
+  .controller('ProfileCtrl', function ($scope,$window,$state,appindex,profile,md5,$localStorage,$timeout) {
 
-    $scope.profile={
-        newUsername:"",
-        newName:"",
-        newArea:"",
-        newCity:"",
-        newState:"",
-        newPincode:"",
-        newCountry:"",
-        countryCode:"",
-        newMobile:"",
-        VCode:"",
-        oldPassword:"",
-        newPassword:"",
-        newPassword2:""
-    };
+    if($localStorage.sessionid===undefined){
+      $window.location.reload(); 
+      $state.go("app.login");
+    }
 
-    $scope.ProfileForm=true;
-    $scope.MobileForm=true;
-    $scope.PasswordForm=true;
-    $scope.UsernameForm=true;
-    $scope.toggleButton=false;
-    $scope.EditUsername="Edit Username";
-    
+      $scope.profile={
+          newUsername:"",
+          newName:"",
+          newArea:"",
+          newCity:"",
+          newState:"",
+          newPincode:"",
+          newCountry:"",
+          countryCode:"",
+          newMobile:"",
+          VCode:"",
+          oldPassword:"",
+          newPassword:"",
+          newPassword2:""
+      };
 
-    var promise = profile.getData();
-    promise.then(function(data){
+      $scope.ProfileForm=true;
+      $scope.MobileForm=true;
+      $scope.PasswordForm=true;
+      $scope.UsernameForm=true;
+      $scope.toggleButton=false;
+      $scope.EditUsername="Edit Username";
 
-        var print=data.data;
-        var userInfo=data.data.userinfo;
-        if(print.useremail==undefined){
-          $window.location.reload(); 
-          $location.path("#/app/login");
-        }
-        else{
+
+//////Loading data from index service 
+    $scope.loadData=function(){
+        if(appindex.userData.useremail!=undefined){
+          var print=appindex.userData;
+          var userInfo=appindex.userData.userinfo;
+
           $scope.Email=print.useremail;
           $scope.uName=print.username;
           if(print.mobile!=undefined){
@@ -59,10 +60,60 @@ angular.module('appskeleton')
             $scope.FillPlaceholders();
           }
         }
-    },function(error){
-        $window.location.reload();
-        $location.path("#/app/login");
-    });
+        else{  
+            $window.location.reload(); 
+            $state.go("app.login");
+        }
+    };
+
+    $scope.$watch(function(){return appindex.userData},function(newValue,oldValue){
+        if(!angular.equals(appindex.userData, {})){
+          $scope.loadData(); 
+        }
+    },true);
+
+  /* Optional function to load profile data from session instead of index service
+    $scope.checkLogin=function(){
+
+      var promise = profile.getData();
+      promise.then(function(data){
+
+          var print=data.data;
+          var userInfo=data.data.userinfo;
+          if(print.useremail==undefined){
+            $window.location.reload(); 
+            $location.path("app/login");
+          }
+          else{
+            $scope.Email=print.useremail;
+            $scope.uName=print.username;
+            if(print.mobile!=undefined){
+                $scope.Mobile=print.mobile;
+            }
+            if(userInfo){
+              $scope.Name=userInfo.fullname;
+              $scope.Area=userInfo.area;
+              $scope.City=userInfo.city;
+              $scope.Pincode=userInfo.pincode;
+              $scope.State=userInfo.state;
+              $scope.Country=userInfo.country;
+              $scope.FillPlaceholders();
+            }
+          }
+      },function(error){
+          $window.location.reload();
+          $location.path("app/login");
+      });
+    };
+
+    if($localStorage.sessionid===undefined){
+      $window.location.reload(); 
+      $location.path("app/login");
+    }
+    else{
+      $scope.checkLogin();
+    }
+    */
 
  //////////// Show-Hide form button logic  ////////
     $scope.ShowProfileForm=function(){
@@ -165,7 +216,8 @@ angular.module('appskeleton')
           }
           else if(data.data.message==="success"){
             $scope.ProfileResult="Updated";
-            $window.location.reload();
+            appindex.needReload=true;
+            $state.transitionTo("app.profile",null, {reload: true});
           }
           else{
             $scope.ProfileResult="Error! Try again later";
@@ -181,11 +233,12 @@ angular.module('appskeleton')
 
     $scope.submitMobileForm=function(mobileForm){
         if(mobileForm.$valid){
-              $scope.ChangeMobile();
-      }
-      else{
-        $scope.MobileMessage="Enter valid details";
-      }
+            $scope.MobileMessage="Sending..";
+            $scope.ChangeMobile();
+        }
+        else{
+            $scope.MobileMessage="Enter valid details";
+        }
     };
 
     $scope.ChangeMobile=function(){
@@ -231,7 +284,8 @@ angular.module('appskeleton')
         promise.then(function(data) {
           if(data.data.message==="pass"){
             $scope.CodeMessage="Verified & Updated";
-            $window.location.reload();
+            appindex.needReload=true; 
+            $state.transitionTo("app.profile",null, {reload: true});
           }
           else if(data.data.message==="fail"){
             $scope.CodeMessage="Wrong Code entered";
@@ -239,6 +293,13 @@ angular.module('appskeleton')
           else if(data.data.message==="unknown"){
             $scope.CodeMessage="Not LoggedIn";
             $window.location.reload();
+          }
+          else if(data.data.message==="exists"){
+            $scope.CodeMessage=undefined;
+            $scope.HideMobileForm=false;
+            $scope.HideCodeForm=true;
+            $scope.profile.VCode=undefined;
+            $scope.MobileMessage="Mobile no. is already registered! Try another one";
           }
           else{
             $scope.CodeMessage="Error! Try again later";
@@ -251,6 +312,7 @@ angular.module('appskeleton')
     $scope.SendAgain=function(){
         $scope.profile.VCode=null;
         $scope.CodeMessage=undefined;
+        $scope.MobileMessage=undefined;
         $scope.HideMobileForm=false;
         $scope.HideCodeForm=true;
     };
@@ -300,7 +362,7 @@ angular.module('appskeleton')
     promise.then(function(data) {
       if(data.data.message==="success"){
           $scope.PasswordResult="Updated";
-          $window.location.reload();
+          $state.transitionTo("app.profile",null, {reload: true});
       }
       else if(data.data.message==="unknown"){
           $scope.PasswordResult="Not LoggedIn";
@@ -377,7 +439,8 @@ angular.module('appskeleton')
       promise.then(function(data){
         if(data.data.message==="success"){
           $scope.UsernameResult="Username changed";
-          $window.location.reload();
+          appindex.needReload=true; 
+          $state.transitionTo("app.profile",null, {reload: true});
         }
         else if(data.data.message==="unknown"){
           $scope.UsernameResult="Not LoggedIn";
