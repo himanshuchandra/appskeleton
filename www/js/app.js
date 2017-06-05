@@ -7,10 +7,9 @@
 // 'starter.controllers' is found in controllers.js
 angular.module('appskeleton', [
     'ionic',
+    'ngCordovaOauth',
     'angular-md5',
     'countrySelect',
-    'googleplus',
-    'ngFacebook',
     'ngStorage'
 ])
 
@@ -31,20 +30,12 @@ angular.module('appskeleton', [
 })
 
 .constant("requrl","http://192.168.0.102:1234")
+.constant("GOOGLE_CLIENT_ID","11067462844-4s6bjl47j6m7v2g4it1ndnfbgirk7m3g.apps.googleusercontent.com")
+.constant("GOOGLE_API_KEY","AIzaSyA7-XiSE26yWofo9OO0Za34DrgU5q775o4")
+.constant("FACEBOOK_APP_ID","1853899954884964")
 
 .config(function($ionicConfigProvider) {
   $ionicConfigProvider.navBar.alignTitle('center');
-})
-
-.config(function(GooglePlusProvider) {
-     GooglePlusProvider.init({
-        clientId:'clientId',
-        apiKey: 'apiKey'
-     });
-})
-
-.config( function( $facebookProvider ) {
-    $facebookProvider.setAppId('appid');
 })
 
 .config(function($stateProvider, $urlRouterProvider) {
