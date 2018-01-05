@@ -10,10 +10,10 @@
 angular.module('appskeleton')
   .controller('AppindexCtrl', function ($scope,appindex,$window,$state,$ionicPopup,$timeout) {
 
-     $scope.loginStatus="Login/SignUp";
+     $scope.loginStatus="Checking...";
 
      $scope.ActivationMessage=undefined;
-     
+
      $scope.loadData=function(){
         var promise = appindex.checkStatus();
         promise.then(function(data){
@@ -39,7 +39,7 @@ angular.module('appskeleton')
 
     $scope.$watch(function(){return appindex.needReload},function(newValue,oldValue){
         if(appindex.needReload===true){
-          $scope.loadData(); 
+          $scope.loadData();
         }
     },true);
 
@@ -109,7 +109,7 @@ angular.module('appskeleton')
         confirmPopup.then(function(res) {
             if(res) {
                 $scope.doLogout();
-            } 
+            }
         });
     };
 
