@@ -5,15 +5,15 @@
     <img src="img/yeoman.png" alt="I'm Yeoman"><br>
     <h1>Login</h1>
   </p>
-</div>    
+</div>
 
 <form name="loginForm"  ng-submit="submitForm(loginForm)" novalidate>
 
     <input type="text" ng-model="login.loginid" name="validloginid"
-     pattern="[a-zA-Z0-9_.@!#$%^&*-+=><?/~`'|]{5,50}" placeholder="Email/Username" required>
+     pattern="[a-zA-Z0-9_.@!#$%^&*-+=><?/~`'|]{5,50}" placeholder="Email/Username/Mobile" required>
     <span  ng-show="loginForm.validloginid.$touched &&
      loginForm.validloginid.$error.pattern && !loginForm.validloginid.$error.required">
-     Invalid email/username </span>
+     Invalid email/username/Mobile </span>
     <span  ng-show="loginForm.validloginid.$touched &&
      loginForm.validloginid.$error.required">Cannot be left empty </span>
     <span  ng-show="submitted && !loginForm.validloginid.$touched &&
@@ -22,9 +22,9 @@
     <span  ng-show="submitted && !loginForm.validloginid.$touched &&
      loginForm.validloginid.$error.pattern">
         Invalid email/username </span>
-    
 
-    <input type="password" ng-model="login.loginpassword" placeholder="Password" 
+
+    <input type="password" ng-model="login.loginpassword" placeholder="Password"
     name="validloginpass" pattern="[a-z0-9A-Z!@#$%^&*()_.]{8,25}" required>
     <span  ng-show="loginForm.validloginpass.$touched &&
      loginForm.validloginpass.$error.pattern && !loginForm.validloginpass.$error.required">
@@ -36,25 +36,25 @@
     <span  ng-show="submitted && !loginForm.validloginpass.$touched &&
      loginForm.validloginpass.$error.pattern">
      password too small or invalid character,use(8-25 char)(a-z,0-9,A-Z,!,@,#,$,%,^,&,*,(,),_,.) </span>
-    
+
     <input type="submit" ng-click="submitted=true;" value="Login">
 
     </form>
     {{result}}
- 
- 
+
+
     <H3><a ng-href="#/app/forgotpassword">Forgot Password</a></H3>
 
     <H1><a ng-href="#/app/signup">SIGNUP</a></H1>
- 
 
-<div ng-controller="GoogleCtrl">     
-    <input type="button" ng-click="SignInGoogle()" value="Sign in with google" />
+
+<div ng-controller="SocialCtrl">
+    <input type="button" ng-click="signInGoogle()" value="Sign in with google" />
     {{GoogleMessage}}
 </div>
 
-<div ng-controller="FacebookCtrl">     
-    <input type="button" ng-click="SignInFacebook()" value="Sign in with facebook" />
+<div ng-controller="SocialCtrl">
+    <input type="button" ng-click="signInFacebook()" value="Sign in with facebook" />
     {{FacebookMessage}}
 </div>
 

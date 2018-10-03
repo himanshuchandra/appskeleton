@@ -8,34 +8,44 @@
  * Controller of the appskeleton
  */
 angular.module('appskeleton')
-  .controller('GoogleCtrl', function ($scope,$state,$window,socialsignin,GooglePlus) {
+  .controller('GoogleCtrl', function ($scope,$state,$window,socialsignin,GOOGLE_CLIENT_ID) {
 
 
     var AuthToken=null;
     var GEmail=null;
     var FullName=null;
 
-    $scope.SignInGoogle = function () {
-        GooglePlus.login().then(function (authResult) {
-            AuthToken=authResult.access_token;
-            GooglePlus.getUser().then(function (user) {
-                GEmail=user.email;
-                FullName=user.name;
-                if(GEmail!=undefined){
-                    $scope.DoSignInGoogle();
-                }
-                else{
-                    $scope.GoogleMessage="Error! Try again later or use the login form."
-                }
-            },
-            function(err){
-                $scope.GoogleMessage="Error! Try again later or use the login form."
-            });
-        },
-        function (err) {
-            $scope.GoogleMessage="Error connecting to Google! Try again later or use the login form."
-        });
-    };  
+    $scope.googleLogin = function() {
+        var client_id=GOOGLE_CLIENT_ID;
+    	var scope="email";
+    	var redirect_uri="http://localhost/callback";
+    	var response_type="token";
+    	var Url="https://accounts.google.com/o/oauth2/auth?scope="+scope+"&client_id="+client_id+"&redirect_uri="+redirect_uri+
+    	"&response_type="+response_type;
+        var ref = window.open(Url);
+    };
+
+    // $scope.SignInGoogle = function () {
+    //     GooglePlus.login().then(function (authResult) {
+    //         AuthToken=authResult.access_token;
+    //         GooglePlus.getUser().then(function (user) {
+    //             GEmail=user.email;
+    //             FullName=user.name;
+    //             if(GEmail!=undefined){
+    //                 $scope.DoSignInGoogle();
+    //             }
+    //             else{
+    //                 $scope.GoogleMessage="Error! Try again later or use the login form."
+    //             }
+    //         },
+    //         function(err){
+    //             $scope.GoogleMessage="Error! Try again later or use the login form."
+    //         });
+    //     },
+    //     function (err) {
+    //         $scope.GoogleMessage="Error connecting to Google! Try again later or use the login form."
+    //     });
+    // };  
     //OPTIONAL
     //Verified fields from google that can be accessed
         //Full name

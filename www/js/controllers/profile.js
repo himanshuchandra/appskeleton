@@ -10,11 +10,6 @@
 angular.module('appskeleton')
   .controller('ProfileCtrl', function ($scope,$window,$state,appindex,profile,md5,$localStorage,$timeout) {
 
-    if($localStorage.sessionid===undefined){
-      $window.location.reload(); 
-      $state.go("app.login");
-    }
-
       $scope.profile={
           newUsername:"",
           newName:"",
@@ -39,7 +34,7 @@ angular.module('appskeleton')
       $scope.EditUsername="Edit Username";
 
 
-//////Loading data from index service 
+//////Loading data from index service
     $scope.loadData=function(){
         if(appindex.userData.useremail!=undefined){
           var print=appindex.userData;
@@ -60,60 +55,21 @@ angular.module('appskeleton')
             $scope.FillPlaceholders();
           }
         }
-        else{  
-            $window.location.reload(); 
-            $state.go("app.login");
-        }
     };
 
-    $scope.$watch(function(){return appindex.userData},function(newValue,oldValue){
-        if(!angular.equals(appindex.userData, {})){
-          $scope.loadData(); 
-        }
+    var unregister=$scope.$watch(appindex.loaded,function(newValue,oldValue){
+      if(!angular.equals(appindex.loaded, false)){
+          $scope.loadData();
+          unregister();
+      }
     },true);
 
-  /* Optional function to load profile data from session instead of index service
-    $scope.checkLogin=function(){
 
-      var promise = profile.getData();
-      promise.then(function(data){
-
-          var print=data.data;
-          var userInfo=data.data.userinfo;
-          if(print.useremail==undefined){
-            $window.location.reload(); 
-            $location.path("app/login");
-          }
-          else{
-            $scope.Email=print.useremail;
-            $scope.uName=print.username;
-            if(print.mobile!=undefined){
-                $scope.Mobile=print.mobile;
-            }
-            if(userInfo){
-              $scope.Name=userInfo.fullname;
-              $scope.Area=userInfo.area;
-              $scope.City=userInfo.city;
-              $scope.Pincode=userInfo.pincode;
-              $scope.State=userInfo.state;
-              $scope.Country=userInfo.country;
-              $scope.FillPlaceholders();
-            }
-          }
-      },function(error){
-          $window.location.reload();
-          $location.path("app/login");
-      });
-    };
-
-    if($localStorage.sessionid===undefined){
-      $window.location.reload(); 
-      $location.path("app/login");
-    }
-    else{
-      $scope.checkLogin();
-    }
-    */
+    $scope.$watch(function(){return appindex.userData},function(newValue,oldValue){
+      if(!angular.equals(appindex.userData, {})){
+          $scope.loadData();
+      }
+    },true);
 
  //////////// Show-Hide form button logic  ////////
     $scope.ShowProfileForm=function(){
@@ -171,7 +127,7 @@ angular.module('appskeleton')
       else{
         $scope.UsernameForm=true;
         $scope.EditUsername="Edit Username";
-      }  
+      }
   };
 
 ///////////// Edit profile logic //////////////
@@ -179,12 +135,12 @@ angular.module('appskeleton')
           $scope.profile.newName=$scope.Name;
           $scope.profile.newArea=$scope.Area;
           $scope.profile.newCity=$scope.City;
-          $scope.profile.newPincode=$scope.Pincode; 
+          $scope.profile.newPincode=$scope.Pincode;
           $scope.profile.newState=$scope.State;
           $scope.profile.newCountry=$scope.Country;
     }
 
-    $scope.submitProfileForm=function (profForm) {  
+    $scope.submitProfileForm=function (profForm) {
         if(profForm.$valid && $scope.profile.newCountry!=undefined){
           $scope.ProfileResult="Saving";
           $scope.changeProfile();
@@ -207,7 +163,7 @@ angular.module('appskeleton')
           "pincode":$scope.profile.newPincode,
           "country":country,
         };
-        
+
         var promise=profile.updateProfileData(profileObject);
         promise.then(function(data) {
           if(data.data.message==="unknown"){
@@ -242,7 +198,7 @@ angular.module('appskeleton')
     };
 
     $scope.ChangeMobile=function(){
-  
+
         var MobileObject={
           "CountryCode":"+"+$scope.profile.countryCode,
           "MobileNumber":$scope.profile.newMobile,
@@ -262,13 +218,13 @@ angular.module('appskeleton')
           }
         },function(error) {
             $scope.MobileMessage="Error! Try again later";
-        });    
+        });
     };
 
     $scope.submitCode=function(codeForm){
       if(codeForm.$valid){
         $scope.CodeMessage="Checking Code..";
-        $scope.VerifyCode();          
+        $scope.VerifyCode();
       }
       else{
         $scope.CodeMessage="Enter valid code";
@@ -284,7 +240,7 @@ angular.module('appskeleton')
         promise.then(function(data) {
           if(data.data.message==="pass"){
             $scope.CodeMessage="Verified & Updated";
-            appindex.needReload=true; 
+            appindex.needReload=true;
             $state.transitionTo("app.profile",null, {reload: true});
           }
           else if(data.data.message==="fail"){
@@ -306,7 +262,7 @@ angular.module('appskeleton')
           }
         },function(error) {
             $scope.CodeMessage="Error! Try again later";
-        });    
+        });
     };
 
     $scope.SendAgain=function(){
@@ -322,11 +278,11 @@ angular.module('appskeleton')
 
     $scope.checkPassword=function(){
       if($scope.profile.newPassword2!=undefined)
-      {   
+      {
           if($scope.profile.newPassword===$scope.profile.newPassword2)
-          {   
+          {
             $scope.PasswordMessage="Passwords match";
-            arePasswordsSame=true;            
+            arePasswordsSame=true;
           }
           else if($scope.profile.newPassword==undefined){
               $scope.PasswordMessage=undefined;
@@ -348,7 +304,7 @@ angular.module('appskeleton')
         $scope.PasswordResult="Enter correct passwords";
       }
     };
-    
+
     $scope.changePassword=function () {
 
       var hashOldPassword=md5.createHash($scope.profile.oldPassword);
@@ -357,7 +313,7 @@ angular.module('appskeleton')
           "oldpassword":hashOldPassword,
           "password1":hashNewPassword,
     };
-        
+
     var promise=profile.setNewPassword(passwordObject);
     promise.then(function(data) {
       if(data.data.message==="success"){
@@ -378,7 +334,7 @@ angular.module('appskeleton')
           $scope.PasswordResult="Error occured! Try again later";
       });
     };
-    
+
 ///////////// Change Username  ////////////////
     $scope.UsernameMessage=null;
     var isUsernameNew=false;
@@ -401,7 +357,7 @@ angular.module('appskeleton')
         var usernameObj = {
           "username":$scope.profile.newUsername,
         };
-        
+
         var promise = profile.checkUsername(usernameObj);
         promise.then(function(data){
           if(data.data.message==="found"){
@@ -411,7 +367,7 @@ angular.module('appskeleton')
               $scope.UsernameMessage = "Nice Choice!";
               isUsernameNew=true;
               $scope.disableButton=false;
-          }            
+          }
         },function(error){
           $scope.UsernameMessage = "Error occured! Try again later";
         });
@@ -419,7 +375,7 @@ angular.module('appskeleton')
 
 
     $scope.submitUsernameForm=function(usernameForm){
-      
+
       if(usernameForm.$valid && isUsernameNew==true){
         $scope.toggleButton=true;
         $scope.UsernameResult="Checking username..";
@@ -431,7 +387,7 @@ angular.module('appskeleton')
     };
 
     $scope.ChangeUsername=function(){
-      
+
       var UsernameObject={
         "Username":$scope.profile.newUsername
       }
@@ -439,7 +395,7 @@ angular.module('appskeleton')
       promise.then(function(data){
         if(data.data.message==="success"){
           $scope.UsernameResult="Username changed";
-          appindex.needReload=true; 
+          appindex.needReload=true;
           $state.transitionTo("app.profile",null, {reload: true});
         }
         else if(data.data.message==="unknown"){
@@ -460,6 +416,6 @@ angular.module('appskeleton')
         $scope.UsernameResult="Error occured!Try again Later";
       });
     };
-       
- 
+
+
   });

@@ -8,12 +8,26 @@
  * Controller of the appskeleton
  */
 angular.module('appskeleton')
-  .controller('AppindexCtrl', function ($scope,appindex,$window,$state,$ionicPopup,$timeout) {
+  .controller('AppindexCtrl', function ($scope,appindex,$window,$state,$ionicPopup,$timeout,$rootScope) {
 
-     $scope.loginStatus="Login/SignUp";
+     $scope.loginStatus="Checking...";
 
      $scope.ActivationMessage=undefined;
-     
+
+     $scope.autoRedirect = function () {
+      var currUrl = $state.current.url;
+      if (appindex.loaded === true && appindex.loggedIn === true) {
+        if (currUrl === '/login' || currUrl === '/signup') {
+          $state.go("app.profile");
+        }
+      }
+      else if (appindex.loaded === true && appindex.loggedIn != true) {
+        if (currUrl === '/profile' || currUrl === '/appointments' || currUrl === '/opsdashboard' || currUrl === '/storedashboard') {
+          $state.go("app.login");
+        }
+      }
+     };
+
      $scope.loadData=function(){
         var promise = appindex.checkStatus();
         promise.then(function(data){
@@ -29,17 +43,20 @@ angular.module('appskeleton')
                 }
                 $scope.loggedOut=true;
                 $scope.loggedIn=false;
+                appindex.loggedIn = true;
             }
             else{
                 $scope.loginStatus="Login/SignUp";
             }
             appindex.needReload=false;
+            appindex.loaded = true;
+            $scope.autoRedirect();
         });
     };
 
     $scope.$watch(function(){return appindex.needReload},function(newValue,oldValue){
         if(appindex.needReload===true){
-          $scope.loadData(); 
+          $scope.loadData();
         }
     },true);
 
@@ -109,7 +126,7 @@ angular.module('appskeleton')
         confirmPopup.then(function(res) {
             if(res) {
                 $scope.doLogout();
-            } 
+            }
         });
     };
 

@@ -4,8 +4,8 @@
   <description>
         An Ionic Framework and Cordova project.
     </description>
-  <author email="you@example.com" href="http://example.com/">
-      Your Name Here
+  <author email="himanshu.chandra@outlook.com" href="http://example.com/">
+      Himanshu Chandra
     </author>
   <content src="index.html"/>
   <access origin="*"/>
@@ -17,6 +17,7 @@
   <preference name="android-minSdkVersion" value="16"/>
   <preference name="BackupWebStorage" value="none"/>
   <preference name="SplashScreen" value="screen"/>
+  <preference name="OverrideUserAgent" value="Mozilla/5.0 Google" />
   <feature name="StatusBar">
     <param name="ios-package" value="CDVStatusBar" onload="true"/>
   </feature>

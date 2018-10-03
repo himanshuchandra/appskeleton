@@ -7,8 +7,7 @@
   "dependencies": {
     "angular-md5": "^0.1.10",
     "ng-country-select": "^0.1.4",
-    "ng-facebook": "^0.1.6",
-    "angular-google-plus": "^0.1.3",
-    "ngstorage": "^0.3.11"
+    "ngstorage": "^0.3.11",
+    "ng-cordova-oauth": "^0.3.0"
   }
 }

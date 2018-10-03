@@ -8,13 +8,13 @@
  * Controller of the appskeleton
  */
 angular.module('appskeleton')
-  .controller('LoginCtrl', function ($scope,login,$window,$state,md5) {
+  .controller('LoginCtrl', function ($scope,login,$window,$state,md5,appindex) {
 
       $scope.login={
         loginid:"",
         loginpassword:"",
       };
-      
+
      $scope.submitForm=function(loginForm){
         if(loginForm.$valid){
             $scope.result="Checking..";
@@ -24,10 +24,10 @@ angular.module('appskeleton')
             $scope.result="Invalid info.";
         }
     };
-    
-    
+
+
     $scope.doLogin=function(){
-        
+
         var hashLoginPassword=md5.createHash($scope.login.loginpassword);
 
         var loginObject = {
@@ -39,11 +39,13 @@ angular.module('appskeleton')
         promise.then(function(data){
             if(data.data.message==="success"){
                 $scope.result="Logged in successfully";
-                $window.location.reload();
-                $state.go("app.main");
+                appindex.needReload = true;
+            }
+            else if(data.data.message==="conflict"){
+                $scope.result="Please specify country code if using Mobile number";
             }
             else if(data.data.message==="fail"){
-                $scope.result="Wrong email or password";
+                $scope.result="Wrong Email/Username/Mobile or password";
             }
             else{
                 $scope.result="Error occurred! Try again later.";
@@ -52,5 +54,5 @@ angular.module('appskeleton')
             $scope.result = "Error occurred! Try again later.";
         });
     };
-  
+
   });

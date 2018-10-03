@@ -13,6 +13,8 @@ angular.module('appskeleton')
     var object = {
 
         needReload:true,
+        loaded:false,
+        loggedIn:false,
         userData:{},
 
         checkStatus:function(){
@@ -20,7 +22,7 @@ angular.module('appskeleton')
                 appCall:true,
                 sessionid:$localStorage.sessionid
             }
-          var defer = $q.defer(); 
+          var defer = $q.defer();
           $http.post(requrl+'/webindex',statusObject)
           .then(function(data){
               if(data.data.sessionid!=undefined){
@@ -29,7 +31,7 @@ angular.module('appskeleton')
                defer.resolve(data);
            },function(error){
                defer.reject(error);
-           }) 
+           })
             return defer.promise;
         },
 
@@ -38,25 +40,25 @@ angular.module('appskeleton')
                 appCall:true,
                 sessionid:$localStorage.sessionid
             }
-          var defer = $q.defer(); 
+          var defer = $q.defer();
           $http.post(requrl+'/sendActivationLink',linkObject)
           .then(function(data){
                defer.resolve(data);
            },function(error){
                defer.reject(error);
-           }) 
+           })
             return defer.promise;
         },
-        
+
 
         logout:function(){
             var logoutObject={
                 appCall:true,
                 sessionid:$localStorage.sessionid
             }
-            
 
-          var defer = $q.defer(); 
+
+          var defer = $q.defer();
           $http.post(requrl+'/logout',logoutObject)
           .then(function(data){
 
@@ -65,7 +67,7 @@ angular.module('appskeleton')
                defer.resolve(data);
            },function(error){
                defer.reject(error);
-           }) 
+           })
             return defer.promise;
         }
 
