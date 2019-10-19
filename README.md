@@ -1,2 +1,2 @@
 "#appskeleton" 
-complete auth system for hybrid app.
+complete auth system for hybrid app .
